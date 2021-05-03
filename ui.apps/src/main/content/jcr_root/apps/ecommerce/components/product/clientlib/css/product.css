@@ -1,0 +1,34 @@
+.pdt-cmp--bgcolor {
+  background-color: rgb(89, 134, 119);
+}
+.pdt-cmp__center-alignment {
+  text-align: center;
+}
+.pdt-cmp__left-alignment {
+  text-align: left;
+}
+.pdt-cmp--bgcolor--product-violet {
+  background-color: rgb(204, 189, 214);
+}
+.pdt-cmp--bgcolor--product-orange {
+  background-color: rgb(236, 216, 189);
+}
+.pdt-cmp--bgcolor--product-red {
+  background-color: rgb(243, 187, 161);
+}
+.btn-violet {
+  background-color: blueviolet;
+}
+
+.title__text-color--color-dark-red {
+  color: darkred;
+}
+.title__text-color--color-dark-slate-grey {
+  color: darkslategrey;
+}
+.title__text-color--color-dark-salmon {
+  color: darksalmon;
+}
+.title__bg-color--white {
+    background-color: white;
+}
