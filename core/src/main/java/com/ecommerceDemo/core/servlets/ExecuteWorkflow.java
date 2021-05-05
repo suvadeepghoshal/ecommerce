@@ -29,7 +29,7 @@ public class ExecuteWorkflow extends SlingSafeMethodsServlet {
         final ResourceResolver resourceResolver = req.getResourceResolver();
         String payload = req.getRequestParameter("page").getString(); // in the link we are writing /bin/executeworkflow?page=
         try {
-            if (StringUtils.isNotBlank(payload)) {
+            if (StringUtils.isNotBlank(payload)) { //   !payload.equals("")
                 WorkflowSession workflowSession = resourceResolver.adaptTo(WorkflowSession.class);
                 WorkflowModel workflowModel = workflowSession.getModel("/var/workflow/models/ecommerceworkflow"); // we need to pass the path of the page where we are doing the workflow
                 WorkflowData workflowData = workflowSession.newWorkflowData("JCR_PATH", payload);
