@@ -39,7 +39,7 @@ public class ExecuteWorkflow extends SlingSafeMethodsServlet {
         } catch (Exception e) {
             LOG.info("\n ERROR IN WORKFLOW {} ", e.getMessage());
         }
-        resp.setContentType("application/json");
+        resp.setContentType("application/json"); // if you hit the model "/var/workflow/models/ecommerceworkflow" -> get the JSON O/P
         resp.getWriter().write(status);
     }
 
