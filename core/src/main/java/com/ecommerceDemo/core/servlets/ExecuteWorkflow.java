@@ -18,7 +18,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 @Component(service = Servlet.class)
-@SlingServletPaths(value = { "/bin/executeworkflow"})
+@SlingServletPaths(value = { "/bin/executeworkflow"}) // JCR_PATH
 public class ExecuteWorkflow extends SlingSafeMethodsServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ExecuteWorkflow.class);
 
