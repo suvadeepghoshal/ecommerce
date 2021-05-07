@@ -3,9 +3,6 @@ package com.ecommerceDemo.core.services.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.crx.JcrConstants;
 import com.ecommerceDemo.core.services.EcomerceResolver;
 
 import org.apache.sling.api.resource.LoginException;
