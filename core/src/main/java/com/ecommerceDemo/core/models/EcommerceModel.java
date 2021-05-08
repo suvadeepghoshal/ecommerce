@@ -1,5 +1,8 @@
 package com.ecommerceDemo.core.models;
 
+import java.util.List;
+import java.util.Map;
+
 import com.ecommerceDemo.core.services.EcomerceResolver;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -13,8 +16,12 @@ public class EcommerceModel {
     @OSGiService
     EcomerceResolver ecomerceResolver;
 
-    public String getPageTitle() {
-        return ecomerceResolver.getPageTitle();
+    public String getPagePath() {
+        return ecomerceResolver.getPagePath();
+    }
+
+    public List<Map<String, Object>> getPageInfo() {
+        return ecomerceResolver.getPageInfo();
     }
     
 }

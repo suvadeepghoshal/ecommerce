@@ -1,8 +1,13 @@
 package com.ecommerceDemo.core.services.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.ecommerceDemo.core.services.EcomerceResolver;
 
 import org.apache.sling.api.resource.LoginException;
@@ -27,43 +32,63 @@ public class EcommerceResolverImpl implements EcomerceResolver {
 
     public static final String SERVICE_NAME = "suvadeepSysUsr";
 
-    String title = "This is demo String";
+    String path = null;
 
-    public static final String PATH = "/content/ecommerce/us/en/resolver";
+    public static final String RESOURCE_PATH = "/content/ecommerce/us/en";
+
+    ResourceResolver resourceResolver = null;
 
     @Activate
     @Modified
-    public ResourceResolver getResourceResolver() {
+    public void getResourceResolver() {
         LOG.info("The control is coming inside the ResourceResolver and the bundle is activated!");
         Map<String, Object> map = new HashMap<>();
         map.put(ResourceResolverFactory.SUBSERVICE, SERVICE_NAME);
         try {
-            ResourceResolver resourceResolver = resourceResolverFactory.getServiceResourceResolver(map);
+            resourceResolver = resourceResolverFactory.getServiceResourceResolver(map);
             LOG.info("Resource Resolver registered");
-            return resourceResolver;
         } catch (LoginException e) {
             LOG.error("Login Failed");
         }
-        return null;
     }
 
     @Override
-    public String getPageTitle() {
-        ResourceResolver resourceResolver = null;
+    public String getPagePath() {
         try {
-            resourceResolver = getResourceResolver();
             LOG.info("Resource Resolver called successfully");
-            Resource resource = resourceResolver.getResource(PATH);
-            title = resource.getName();
-            if (!title.isEmpty()) {
-                return title;
+            Resource resource = resourceResolver.getResource(RESOURCE_PATH);
+            path = resource.getPath();
+            if (!path.isEmpty()) {
+                return path;
             } else {
                 return "Resource Resolver is NULL";
             }
         } catch (NullPointerException e) {
             LOG.error("Resource is null");
         }
-        return title;
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPageInfo() {
+        List<Map<String, Object>> pageInfo = new ArrayList<>();
+        try {
+            LOG.info("Resource Resolver called successfully");
+            Resource resource = resourceResolver.getResource(RESOURCE_PATH);
+            Page page = resource.adaptTo(Page.class);
+            Iterator<Page> childPages = page.listChildren();
+            while (childPages.hasNext()) {
+                Page childPage = childPages.next();
+                Map<String, Object> childInfo = new HashMap<>();
+                childInfo.put("title", childPage.getTitle());
+                childInfo.put("path", childPage.getPath());
+                childInfo.put("allInfo", childPage.getProperties());
+                pageInfo.add(childInfo);
+            }
+        } catch (NullPointerException e) {
+            LOG.error("Resource is null");
+        }
+        return pageInfo;
     }
 
 }
