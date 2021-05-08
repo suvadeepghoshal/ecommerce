@@ -5,9 +5,17 @@
       <p><strong>Current Path: </strong> ${resolver.pagePath}</p>
       <div data-sly-list.item="${resolver.pageInfo}">
         <h5><strong>Child #</strong>${itemList.count}</h5>
+        <p><strong>Coming from Parent: </strong>${item.parent}</p>
         <p><strong>Child Title: </strong>${item.title}</p>
         <p>
           <em> <strong> Path: </strong></em>${item.path}
+        </p>
+        <p><strong>Depth of the page from the parent: </strong>${item.depth}</p>
+        <p>
+          <small
+            ><em><strong>Last Modified By: </strong></em
+            >${item.lastModified}</small
+          >
         </p>
         <small><strong>All the properties name</strong></small>
         <div data-sly-list.childInfo="${item.allInfo}">

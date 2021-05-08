@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
 import com.ecommerceDemo.core.services.EcomerceResolver;
 
 import org.apache.sling.api.resource.LoginException;
@@ -80,8 +79,11 @@ public class EcommerceResolverImpl implements EcomerceResolver {
             while (childPages.hasNext()) {
                 Page childPage = childPages.next();
                 Map<String, Object> childInfo = new HashMap<>();
+                childInfo.put("parent", childPage.getParent().getName());
                 childInfo.put("title", childPage.getTitle());
                 childInfo.put("path", childPage.getPath());
+                childInfo.put("depth", childPage.getDepth());
+                childInfo.put("lastModified", childPage.getLastModified().getInstance().getTime().toString());
                 childInfo.put("allInfo", childPage.getProperties());
                 pageInfo.add(childInfo);
             }
