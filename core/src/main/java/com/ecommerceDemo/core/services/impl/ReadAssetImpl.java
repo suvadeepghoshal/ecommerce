@@ -5,9 +5,11 @@ import com.day.cq.dam.api.Rendition;
 import com.ecommerceDemo.core.services.ReadAsset;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -35,6 +37,8 @@ public class ReadAssetImpl implements ReadAsset {
 
     ResourceResolver resourceResolver = null;
 
+    String csvFile = null;
+
     @Activate
     @Modified
     public void activate() {
@@ -48,21 +52,24 @@ public class ReadAssetImpl implements ReadAsset {
             LOG.error("Login Failed");
         }
     }
-    
+
     @Override
-    public void readAsset() {
+    public String getAsset() {
         try {
             Resource resource = resourceResolver.getResource(RESOURCE_PATH);
             LOG.info("resource is coming");
             Asset asset = resource.adaptTo(Asset.class);
-            LOG.info("Converted into Asset");
             Rendition rendition = asset.getOriginal();
-            LOG.info("Converted into rendition");
             InputStream inputStream = rendition.adaptTo(InputStream.class);
-            LOG.info("input stream");
+            if (inputStream != null) {
+                csvFile = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                return csvFile;
+            } else {
+                return "We have failed";
+            }
         } catch (Exception e) {
-            // TODO: handle exception
             LOG.error("Something went wrong in the readAsset function");
         }
+        return "Nothing is happening";
     }
 }
