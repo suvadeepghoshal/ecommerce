@@ -2,12 +2,18 @@ package com.ecommerceDemo.core.services.impl;
 
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.Rendition;
+import com.ecommerceDemo.core.models.CsvModel;
 import com.ecommerceDemo.core.services.ReadAsset;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.LoginException;
@@ -38,6 +44,7 @@ public class ReadAssetImpl implements ReadAsset {
     ResourceResolver resourceResolver = null;
 
     String csvFile = null;
+    String str = null;
 
     @Activate
     @Modified
@@ -71,5 +78,70 @@ public class ReadAssetImpl implements ReadAsset {
             LOG.error("Something went wrong in the readAsset function");
         }
         return "Nothing is happening";
+    }
+
+    @Override
+    public List<CsvModel> getProperCsv() {
+
+        List<CsvModel> csvList = null;
+
+        InputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
+
+        try {
+            Resource resource = resourceResolver.getResource(RESOURCE_PATH);
+            LOG.info("resource is coming");
+            Asset asset = resource.adaptTo(Asset.class);
+            Rendition rendition = asset.getOriginal();
+            inputStream = rendition.adaptTo(InputStream.class);
+            inputStreamReader = new InputStreamReader(inputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
+
+            csvList = new ArrayList<>();
+
+            /* =======================Java 8 Features====================== */
+
+            csvList = bufferedReader.lines().skip(1).map(csvLineString -> {
+                String[] csvArrayofValues = csvLineString.split(",");
+                CsvModel csvModel = new CsvModel();
+                csvModel.setSerialNumber(Long.parseLong(csvArrayofValues[0].trim()));
+                csvModel.setCompanyName(csvArrayofValues[1].trim());
+                csvModel.setEmployee(csvArrayofValues[2].trim());
+                csvModel.setDescription(csvArrayofValues[3].trim());
+                csvModel.setLeave(Byte.parseByte(csvArrayofValues[4].trim()));
+                return csvModel;
+            }).collect(Collectors.toList());
+
+            /* =======================Traditional Method====================== */
+
+            // List<String> csvLineString =
+            // bufferedReader.lines().skip(1).collect(Collectors.toList());
+            // for (String str : csvLineString) {
+            // String[] csvArrayofValues = str.split(",");
+            // CsvModel csvModel = new CsvModel();
+            // csvModel.setSerialNumber(csvArrayofValues[0].trim());
+            // csvModel.setCompanyName(csvArrayofValues[1].trim());
+            // csvModel.setEmployee(csvArrayofValues[2].trim());
+            // csvModel.setDescription(csvArrayofValues[3].trim());
+            // csvModel.setLeave(Byte.parseByte(csvArrayofValues[4].trim()));
+            // csvList.add(csvModel);
+            // }
+
+        } catch (Exception e) {
+            LOG.error("Something went wrong in the readAsset function");
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+                if (inputStreamReader != null)
+                    inputStreamReader.close();
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (Exception e) {
+                LOG.error("Something is wrong");
+            }
+        }
+        return csvList;
     }
 }

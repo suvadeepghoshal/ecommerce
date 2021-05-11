@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 @Component(service = EcomerceResolver.class, immediate = true)
 public class EcommerceResolverImpl implements EcomerceResolver {
 
-    @Reference
-    ResourceResolverFactory resourceResolverFactory;
+    @Reference // this is important
+    ResourceResolverFactory resourceResolverFactory; // get the sub service
 
     private static final Logger LOG = LoggerFactory.getLogger(EcommerceResolverImpl.class);
 
@@ -41,8 +41,8 @@ public class EcommerceResolverImpl implements EcomerceResolver {
     @Modified
     public void getResourceResolver() {
         LOG.info("The control is coming inside the ResourceResolver and the bundle is activated!");
-        Map<String, Object> map = new HashMap<>();
-        map.put(ResourceResolverFactory.SUBSERVICE, SERVICE_NAME);
+        Map<String, Object> map = new HashMap<>(); // you can use pair also
+        map.put(ResourceResolverFactory.SUBSERVICE, SERVICE_NAME); // getting the resourceresolverFactory
         try {
             resourceResolver = resourceResolverFactory.getServiceResourceResolver(map);
             LOG.info("Resource Resolver registered");
@@ -55,7 +55,8 @@ public class EcommerceResolverImpl implements EcomerceResolver {
     public String getPagePath() {
         try {
             LOG.info("Resource Resolver called successfully");
-            Resource resource = resourceResolver.getResource(RESOURCE_PATH);
+            Resource resource = resourceResolver.getResource(RESOURCE_PATH); // of the particular path
+                                                                             // "/content/ecommerce/us/en"
             path = resource.getPath();
             if (!path.isEmpty()) {
                 return path;
