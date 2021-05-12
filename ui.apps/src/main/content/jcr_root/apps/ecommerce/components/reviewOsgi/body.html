@@ -1,0 +1,12 @@
+<div>
+  <div data-sly-use.review="com.ecommerceDemo.core.models.ReviewOSGiModel">
+    <p><strong>Text Field: </strong>${review.text}</p>
+    <p><strong>Boolean field: </strong>${review.boolean}</p>
+    <p><strong>Selection field: </strong>${review.selection}</p>
+    <div><strong>Multifield</strong></div>
+    <ol data-sly-list.item="${review.multifled}">
+        <li>${item}</li>
+    </ol>
+  </div>
+  </div>
+</div>
