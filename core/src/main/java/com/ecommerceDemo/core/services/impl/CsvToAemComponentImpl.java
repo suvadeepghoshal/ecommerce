@@ -2,6 +2,7 @@ package com.ecommerceDemo.core.services.impl;
 
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
+import com.ecommerceDemo.core.models.PageModel;
 import com.ecommerceDemo.core.services.CsvToAemComponent;
 import com.day.cq.wcm.api.Page;
 
@@ -59,81 +60,83 @@ public class CsvToAemComponentImpl implements CsvToAemComponent {
         }
     }
 
-    // public List<PageModel> getCsvContent() {
+    public List<PageModel> getCsvContent() {
 
-    // List<PageModel> pageProperties = null;
+        List<PageModel> pageProperties = null;
 
-    // InputStream inputStream = null;
-    // InputStreamReader inputStreamReader = null;
-    // BufferedReader bufferedReader = null;
+        InputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
 
-    // try {
-    // Resource resource = resourceResolver.getResource(RESOURCE_PATH);
-    // LOG.info("resource is coming");
-    // Asset asset = resource.adaptTo(Asset.class);
-    // Rendition rendition = asset.getOriginal();
-    // inputStream = rendition.adaptTo(InputStream.class);
-    // inputStreamReader = new InputStreamReader(inputStream);
-    // bufferedReader = new BufferedReader(inputStreamReader);
+        try {
+            Resource resource = resourceResolver.getResource(RESOURCE_PATH);
+            LOG.info("resource is coming");
+            Asset asset = resource.adaptTo(Asset.class);
+            Rendition rendition = asset.getOriginal();
+            inputStream = rendition.adaptTo(InputStream.class);
+            inputStreamReader = new InputStreamReader(inputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
 
-    // pageProperties = new LinkedList<>();
+            pageProperties = new LinkedList<>();
 
-    // pageProperties = bufferedReader.lines().skip(1).map(singleLine -> {
-    // String[] arr = singleLine.split(",");
-    // PageModel pageModel = new PageModel();
-    // pageModel.setParentPage(arr[0].trim());
-    // pageModel.setPageName(arr[1].trim());
-    // pageModel.setWhichTemplate(arr[2].trim());
-    // pageModel.setPageTitle(arr[3].trim());
-    // return pageModel;
-    // }).collect(Collectors.toList());
-    // } catch (Exception e) {
-    // LOG.error("We failed to get the CSV datas");
-    // } finally {
-    // try {
-    // if (bufferedReader != null)
-    // bufferedReader.close();
-    // if (inputStreamReader != null)
-    // inputStreamReader.close();
-    // if (inputStream != null)
-    // inputStream.close();
-    // } catch (Exception e) {
-    // LOG.error("Resources could not be released properly");
-    // }
-    // }
+            pageProperties = bufferedReader.lines().skip(1).map(singleLine -> {
+                String[] arr = singleLine.split(",");
+                PageModel pageModel = new PageModel();
+                pageModel.setParentPage(arr[0].trim());
+                pageModel.setPageName(arr[1].trim());
+                pageModel.setWhichTemplate(arr[2].trim());
+                pageModel.setPageTitle(arr[3].trim());
+                return pageModel;
+            }).collect(Collectors.toList());
+        } catch (Exception e) {
+            LOG.error("We failed to get the CSV datas");
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+                if (inputStreamReader != null)
+                    inputStreamReader.close();
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (Exception e) {
+                LOG.error("Resources could not be released properly");
+            }
+        }
 
-    // return pageProperties;
-    // }
+        return pageProperties;
+    }
 
     /* =================This is just for testing purpose=============== */
 
     public static final String PARENT_PATH = "/content/ecommerce/us/en";
-    public static final String PAGE_NAME = "generate";
+    public static final String PAGE_NAME = "mypage";
     public static final String WHICH_TEMPLATE = "/conf/ecommerce/settings/wcm/templates/blank";
-    public static final String PAGE_TITLE = "generate";
+    public static final String PAGE_TITLE = "mypage";
 
     /* End of dummy data */
 
     @Override
-    public boolean addPage() {
-        // List<PageModel> pageProperties = getCsvContent(); // excluded the csv for now
+    public List<Page> addPage() {
+        List<Page> pagesCreated = new LinkedList<>();
+        List<PageModel> pageProperties = getCsvContent(); // excluded the csv for now
         PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
         try {
-            // for (PageModel pageModel : pageProperties) {
+            for (PageModel pageModel : pageProperties) {
 
-            // Page page = pageManager.create(pageModel.getParentPage(),
-            // pageModel.getPageName(),
-            // pageModel.getWhichTemplate(), pageModel.getPageTitle());
+                Page page = pageManager.create(pageModel.getParentPage(), pageModel.getPageName(),
+                        pageModel.getWhichTemplate(), pageModel.getPageTitle());
 
-            Page page = pageManager.create(PARENT_PATH, PAGE_NAME, WHICH_TEMPLATE, PAGE_TITLE);
+                // Page page = pageManager.create(PARENT_PATH, PAGE_NAME, WHICH_TEMPLATE,
+                // PAGE_TITLE);
 
-            if (page != null) {
-                return true;
+                if (page != null) {
+                    pagesCreated.add(page);
+                }
             }
-            // }
+            return pagesCreated;
         } catch (WCMException e) {
             LOG.error("Page not created");
         }
-        return false;
+        return null;
     }
 }

@@ -6,6 +6,9 @@ import java.io.PrintWriter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
+import java.util.List;
+
+import com.day.cq.wcm.api.Page;
 import com.ecommerceDemo.core.services.CsvToAemComponent;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -29,14 +32,16 @@ public class CsvToAemComponentServlet extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
             throws ServletException, IOException {
-                // response.getWriter().println("RUNNING");
         try {
             PrintWriter out = response.getWriter();
             response.setContentType("text/plain");
-            boolean isPageCreated = csvToAemComponent.addPage();
-            if (isPageCreated) {
+            List<Page> pagesCreated = csvToAemComponent.addPage();
+            if (pagesCreated != null) {
                 LOG.info("page is created");
-                out.println("Page is Created");
+                out.println("The following pages are created");
+                for (Page p : pagesCreated) {
+                    out.println(p.getName());
+                }
             } else {
                 LOG.error("Page is not created");
                 out.println("page is not created");
