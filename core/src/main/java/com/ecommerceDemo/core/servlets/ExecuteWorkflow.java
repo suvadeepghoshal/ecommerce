@@ -18,7 +18,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 @Component(service = Servlet.class)
-@SlingServletPaths(value = { "/bin/executeworkflow"}) // JCR_PATH
+@SlingServletPaths(value = { "/bin/executeworkflow"}) // The URL from which we trigger the servlet
 public class ExecuteWorkflow extends SlingSafeMethodsServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ExecuteWorkflow.class);
 
@@ -42,5 +42,7 @@ public class ExecuteWorkflow extends SlingSafeMethodsServlet {
         resp.setContentType("application/json"); // if you hit the model "/var/workflow/models/ecommerceworkflow" -> get the JSON O/P
         resp.getWriter().write(status);
     }
+
+    
 
 }
