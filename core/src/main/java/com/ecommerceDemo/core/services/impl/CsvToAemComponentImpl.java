@@ -8,6 +8,7 @@ import com.day.cq.wcm.api.Page;
 
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class CsvToAemComponentImpl implements CsvToAemComponent {
             inputStreamReader = new InputStreamReader(inputStream);
             bufferedReader = new BufferedReader(inputStreamReader);
 
-            pageProperties = new LinkedList<>();
+            pageProperties = new LinkedList<>(); // importance of linkedlist over here
 
             pageProperties = bufferedReader.lines().skip(1).map(singleLine -> {
                 String[] arr = singleLine.split(",");
@@ -137,6 +138,6 @@ public class CsvToAemComponentImpl implements CsvToAemComponent {
         } catch (WCMException e) {
             LOG.error("Page not created");
         }
-        return null;
+        return Collections.emptyList(); // also gives null value
     }
 }

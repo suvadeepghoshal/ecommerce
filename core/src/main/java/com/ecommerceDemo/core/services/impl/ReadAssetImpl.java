@@ -117,7 +117,7 @@ public class ReadAssetImpl implements ReadAsset {
 
             // List<String> csvLineString =
             // bufferedReader.lines().skip(1).collect(Collectors.toList());
-            // for (String str : csvLineString) {
+            // for (String str : csvLineString) { // for(int i = 1; i < str.length(); ++i)
             // String[] csvArrayofValues = str.split(",");
             // CsvModel csvModel = new CsvModel();
             // csvModel.setSerialNumber(csvArrayofValues[0].trim());
