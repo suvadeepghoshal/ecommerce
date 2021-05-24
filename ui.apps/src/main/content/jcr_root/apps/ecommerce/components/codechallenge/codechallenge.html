@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+
+    <title>Coding Challenge</title>
+  </head>
+  <body>
+    <main class="container">
+      <div class="bg-light p-5 rounded">
+        <h1>OSGi Configuration values</h1>
+        <p class="lead">
+            <div data-sly-use.code="com.ecommerceDemo.core.models.CodeChallengeModel">
+                <p><strong>Text Field: </strong>${code.text}</p>
+                <p><strong>Boolean field: </strong>${code.boolean}</p>
+                <p><strong>Selection field: </strong>${code.selection}</p>
+                <div><strong>Multifield</strong></div>
+                <ol data-sly-list.item="${code.multifled}">
+                    <li>${item}</li>
+                </ol>
+            </div>
+        </p>
+      </div>
+    </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

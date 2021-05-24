@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="nt:unstructured" jcr:title="Product Tile" sling:resourceType="cq/gui/components/authoring/dialog">
+    <content granite:class="cmp-author_editor" jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <column jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <title jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/form/textfield" fieldLabel="Product Title" name="./title" />
+                    <name jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/form/textfield" fieldLabel="Author Name" name="./name" />
+                    <select jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/form/select" fieldLabel="Language" name="./language">
+                        <items jcr:primaryType="nt:unstructured">
+                            <english jcr:primaryType="nt:unstructured" text="english" value="english" />
+                            <hindi jcr:primaryType="nt:unstructured" text="hindi" value="hindi" />
+                            <bengali jcr:primaryType="nt:unstructured" text="bengali" value="bengali" />
+                        </items>
+                    </select>
+                    <price jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/form/textfield" fieldLabel="Price" name="./price" />
+                    <description jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/foundation/form/textarea" fieldLabel="Description" name="./description" />
+                    <file jcr:primaryType="nt:unstructured" sling:resourceType="cq/gui/components/authoring/dialog/fileupload" autoStart="{Boolean}false" class="cq-droptarget" fieldLabel="Product Image" fileNameParameter="./fileName" fileReferenceParameter="./fileReference" mimeTypes="[image/gif,image/jpeg,image/png,image/tiff,image/svg+xml]" multiple="{Boolean}false" name="./file" title="Upload Image Asset" uploadUrl="${suffix.path}" useHTML5="{Boolean}true" />
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>
