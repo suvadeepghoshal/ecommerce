@@ -6,16 +6,18 @@ public class PageModel {
     private String pageName;
     private String whichTemplate;
     private String pageTitle;
+    private String description;
 
     public PageModel() {
         super();
     }
 
-    public PageModel(String parentPage, String pageName, String whichTemplate, String pageTitle) {
+    public PageModel(String parentPage, String pageName, String whichTemplate, String pageTitle, String description) {
         this.parentPage = parentPage;
         this.pageName = pageName;
         this.whichTemplate = whichTemplate;
         this.pageTitle = pageTitle;
+        this.description = description;
     }
 
     public String getParentPage() {
@@ -48,6 +50,14 @@ public class PageModel {
 
     public void setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

@@ -8,6 +8,11 @@ import com.day.cq.wcm.api.Page;
 
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -87,6 +92,7 @@ public class CsvToAemComponentImpl implements CsvToAemComponent {
                 pageModel.setPageName(arr[1].trim());
                 pageModel.setWhichTemplate(arr[2].trim());
                 pageModel.setPageTitle(arr[3].trim());
+                pageModel.setDescription(arr[4].trim());
                 return pageModel;
             }).collect(Collectors.toList());
         } catch (Exception e) {
@@ -131,11 +137,17 @@ public class CsvToAemComponentImpl implements CsvToAemComponent {
                 // PAGE_TITLE);
 
                 if (page != null) {
+                    Resource thatPage = resourceResolver
+                            .getResource("/content/ecommerce/us/en/" + pageModel.getPageName() + "/jcr:content");
+                    Node node = thatPage.adaptTo(Node.class);
+                    node.setProperty("jcr:description", pageModel.getDescription());
+                    Session session = resourceResolver.adaptTo(Session.class);
+                    session.save();
                     pagesCreated.add(page);
                 }
             }
             return pagesCreated;
-        } catch (WCMException e) {
+        } catch (WCMException | RepositoryException e) {
             LOG.error("Page not created");
         }
         return Collections.emptyList(); // also gives null value

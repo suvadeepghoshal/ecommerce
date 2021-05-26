@@ -26,6 +26,7 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +46,9 @@ public class SitemapImpl implements Sitemap {
     /* Logger LOG */
     private static final Logger LOG = LoggerFactory.getLogger(SitemapImpl.class);
 
-    private static final String SITEMAP_LOCATION = "";
+    private static final String SITEMAP_LOCATION = "http://localhost:4505/";
 
-    private static final String SITEMAP_NAMESPACE = "";
+    private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
     private static FastDateFormat date = FastDateFormat.getInstance("yyyyMMdd");
 
@@ -106,7 +107,7 @@ public class SitemapImpl implements Sitemap {
 
             /* === URL forming === */
 
-            xmlStreamWriter.writeStartDocument(ENCODING, VERSION);
+            xmlStreamWriter.writeStartDocument(VERSION);
             xmlStreamWriter.writeStartElement("", URL_SET, SITEMAP_NAMESPACE);
             xmlStreamWriter.writeNamespace(PREFIX, SITEMAP_NAMESPACE);
 
@@ -132,6 +133,24 @@ public class SitemapImpl implements Sitemap {
 
     private void getInnerPage(Page mainPage, XMLStreamWriter xmlStreamWriter) {
 
+        xmlWriter(mainPage, xmlStreamWriter);
+
+        for (Iterator<Page> children = mainPage.listChildren(); children.hasNext();) {
+
+            Page childPage = children.next();
+
+            if (childPage.listChildren().hasNext()) {
+                getInnerPage(mainPage, xmlStreamWriter);
+            } else {
+                xmlWriter(mainPage, xmlStreamWriter);
+            }
+
+        }
+
+    }
+
+    private void xmlWriter(Page mainPage, XMLStreamWriter xmlStreamWriter) {
+
         final String URL = "url";
 
         final String LAST_MODIFIED = "last_modified";
@@ -155,7 +174,7 @@ public class SitemapImpl implements Sitemap {
 
             xmlStreamWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            LOG.error("XMLStreamException -> getInnerPage(): ", e);
+            LOG.error("XMLStreamException -> xmlWriter(): ", e);
         }
 
     }
