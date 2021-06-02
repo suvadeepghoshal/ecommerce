@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="Create Sling model to get dialog values into Backend Services and print them on logs with types: Boolean, String, Multifield, Options"
-    jcr:primaryType="cq:Component"
-    jcr:title="Code Challenge Sling"
-    componentGroup="suvadeep"/>

@@ -13,7 +13,7 @@ public class ReviewOSGiModel {
     ReviewService reviewService;
 
     public String getText() {
-        return reviewService.getText();
+        return reviewService.getText(); // these are the getters from the service class
     }
 
     public boolean getBoolean() {
