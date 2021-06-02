@@ -12,11 +12,75 @@
     <title>Login</title>
   </head>
   <body>
-      <h1>Hello</h1>
-    <div data-sly-use.login="com.ecommerceDemo.core.models.HitApiModel">
-      <ul data-sly-list.item="${login.countrynames}">
-        <li>${item}</li>
-      </ul>
+    <div class="container-fluid">
+      <div data-sly-use.login="com.ecommerceDemo.core.models.HitApiModel">
+        <form>
+          <div class="mb-3">
+            <label for="fname" class="form-label">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fname"
+              placeholder="enter your first name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lname" class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lname"
+              placeholder="enter your last name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email_id" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email_id"
+              aria-describedby="emailHelp"
+              placeholder="enter your email"
+            />
+            <div id="emailHelp" class="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="pwd" class="form-label">Password</label>
+            <input
+              type="password"
+              placeholder="enter your password"
+              class="form-control"
+              id="pwd"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="conf_pwd" class="form-label">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="re-enter your password"
+              class="form-control"
+              id="conf_pwd"
+            />
+          </div>
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="countries"
+              aria-label="Floating label select example"
+            >
+              <option selected>Select the country</option>
+              <div data-sly-list.item="${login.countrynames}">
+                <option value="${item}">${item}</option>
+              </div>
+            </select>
+            <label for="floatingSelect">Country List</label>
+          </div>
+          <br />
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
