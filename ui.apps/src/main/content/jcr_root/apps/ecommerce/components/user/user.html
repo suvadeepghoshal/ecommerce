@@ -1,0 +1,40 @@
+<!DOCTYPE html!>
+<!--/* A simple sightly script */-->
+<html>
+<head>
+<title>${properties.jcr:title}</title>
+</head>
+<body>
+	<h1 data-sly-test="${properties.jcr:title}">${properties.jcr:title}</h1>
+	<div
+		data-sly-use.sessionModel="com.mindtree.orchbook.core.models.SigninModel">
+		<div data-sly-test="${sessionModel.sessionAttribute}">
+			<div class="card" style="width: 18rem;">
+				<img
+					src="https://th.bing.com/th/id/R825262fe9c428e5d7311ff3f07ca3158?rik=m08UUb9ckb%2fKvg&riu=http%3a%2f%2fwww.newdesignfile.com%2fpostpic%2f2010%2f07%2fcontact-person-icon_191263.png&ehk=cVjihXSzSvk7nzGCDZNVfgEXfGfQw3ZKmQF24xphYRE%3d&risl=&pid=ImgRaw"
+					class="card-img-top" alt="user">
+				<div class="card-body">
+					<h5 class="card-title">${sessionModel.sessionAttribute}</h5>
+					<p class="card-text">
+						This is a user whose email is <em>${sessionModel.sessionAttribute}</em>.
+						You are currently in a session, but you if you want you can kill
+						the session, by hitting sign out option.
+					</p>
+					<a href="/bin/signout" class="btn btn-danger">Sign out</a>
+				</div>
+			</div>
+		</div>
+		<div data-sly-test="${!sessionModel.sessionAttribute}">
+			<div class="card" style="width: 18rem;">
+				<img
+					src="https://cdn2.iconfinder.com/data/icons/prohibited-forbidden-signs/100/Prohibited-31-512.png"
+					class="card-img-top" alt="user">
+				<div class="card-body">
+					<h5 class="card-title">No such user found</h5>
+					<a href="#" class="btn btn-success">Sign in</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
